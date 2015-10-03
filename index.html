@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/styling.css" />
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="css/jquery.mobile-custom.min.css" />
+<link rel="stylesheet" href="css/styling.css" />
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.4.0.min.js"></script>
+
+ <script src="lib/jquery-2.1.3.min.js"></script>
+        <script src="js/init.js"></script>
+       
+   
+        <script>
+$(function(){           
+    var step = 1;
+    var current = 0;
+    var maximum = $(".categories ul li").size();
+    var visible = 2;
+    var speed = 500;
+    var liSize = 120;
+    var height = 30;    
+    var ulSize = liSize * maximum;
+    var divSize = liSize * visible; 
+
+    $('.categories').css("width", "auto").css("height", height+"px").css("visibility", "visible").css("overflow", "hidden").css("position", "relative");
+    $(".categories ul li").css("list-style","none").css("display","inline");
+    $(".categories ul").css("width", ulSize+"px").css("left", -(current * liSize)).css("position", "absolute").css("white-space","nowrap").css("margin","0px").css("padding","0px");
+
+    $(".categories").swipeleft(function(event){
+        if(current + step < 0 || current + step > maximum - visible) {return; }
+        else {
+            current = current + step;
+            $('.categories ul').animate({left: -(liSize * current)}, speed, null);
+        }
+        return false;
+    });
+
+    $(".categories").swiperight(function(){
+        if(current - step < 0 || current - step > maximum - visible) {return; }
+        else {
+            current = current - step;
+            $('.categories ul').animate({left: -(liSize * current)}, speed, null);
+        }
+        return false;
+    });         
+});
+</script>
+  
+        <!--Slider script-->
+         <script>
+		$(function() {      
+            $("#slideshow > div:gt(0)").hide(); 
+            setInterval(function() { 
+              $('#slideshow > div:first')
+                .fadeOut(1000)
+                .next()
+                .fadeIn(1000)
+                .end()
+                .appendTo('#slideshow');
+            }, 2000);          
+        });
+		</script>
+
+</head>
+<body>
+<!-------------------- Page1 Start ------------------->
+<div data-role="page" id="signin"  class="bck_img">
+ <div data-role="content">
+         <div class="index_menu">
+          <p class="index_txt_1"><img src="img/home/evx_logo.png" width="150" height="68"></p>  
+          <p class="index_txt_2">Ready to innovate?</p>  
+          <p id="unameerror" class="form_err"></p>
+               </div> 
+          <div class="index_menu_icon">
+       <div class="form1">
+       <img src="img/home/mail-icon.png"/>
+       </div>
+       <form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+        <div class="form2">
+       <input type="text" name="email" id="email" placeholder="Username">
+       </div><br/><br/><br/>
+        <div class="bor_form"></div>
+        <br/>
+        <div class="form1">
+       <img src="img/home/key-icon.png"/>
+       </div>
+        <div class="form2">
+        <input type="password" name="password" id="password" class="infld" placeholder="Password">
+       </div>
+       <button type="button" class="login_btn" id="login"><a href="#signup" class="create">Login</a></button>
+       </form>
+       <p class="login_txt"><a href="#signup" data-transition="slide">Create</a> &nbsp;your account now!<br>You are one step behind.</p>
+            </div>
+            </div>
+</div> 
+<script>
+$("#login").click(function(){
+	
+var email=$("#email").val();
+alert(email);
+var password=$("#password").val();
+var dataString="email="+email+"&password="+password+"&login=";
+if($.trim(email).length>0 & $.trim(password).length>0)
+{
+$.ajax({
+type: "POST",
+url: "http://localhost/wamp/EVX-24-06-15/en/signin.php?login_emailid=elangocool89@gmail.com&login_password=Elangocool89&Login=Login",
+data: dataString,
+crossDomain: true,
+cache: false,
+beforeSend: function(){ $("#login").html('Connecting...');},
+success: function(data){
+if(data=="success")
+{
+localStorage.login="true";
+localStorage.email=email;
+window.location.href = "index.html";
+}
+else if(data="failed")
+{
+alert("Login error");
+$("#login").html('Login');
+}
+}
+});
+}return false;
+});
+</script>
+
+<!-------------------- Page2 Start ------------------->
+<div data-role="page" id="signup" class="bck_img">
+  <div data-role="content">
+    
+         <div class="index_menu">
+<p class="index_txt_2">Hurrah! You are about to create an EVx account.</p>
+<p id="nameerror" class="form_err"></p>
+<form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+  <div class="form1"><img src="img/home/user-icon.png"/></div>
+  <div class="form2"><input type="text" name="fname" id="fname" placeholder="Fullname" onclick="return check_value(this.value);"></div>
+  
+  <div class="form1"> <img src="img/home/mail-icon.png"/></div>
+  <div class="form2"><input type="text" name="email" id="email" placeholder="Email Id" onclick="return check_value(this.value);"></div>
+  
+  <div class="form1"><img src="img/home/key-icon.png"/></div>
+  <div class="form2"> <input type="password" name="psw" id="psw" class="infld" placeholder="Password" onclick="return check_value(this.value);"></div>
+  
+  <div class="form1"> <img src="img/home/confirmpass-icon.png"/></div>
+  <div class="form2"><input type="password" name="cpsw" id="cpsw" class="infld" placeholder="Confirm Password" onclick="return check_value(this.value);"></div>
+       
+  <button type="button" class="login_btn" onclick="return valitation();"><a href="#dashboard" class="create">That's It You are in!</a></button>
+  </form>
+  <a href="#dashboard" data-transition="slide">click here for dashboard</a>      
+</div>
+</div>
+<div class="clear_cl"></div>
+</div> 
+<script>
+function valitation()
+{
+	//alert("fdgfd");
+	var fname=document.getElementById("fname").value;
+	var email=document.getElementById("email").value;
+	var psw=document.getElementById("psw").value;
+	var cpsw=document.getElementById("cpsw").value;
+	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	//var phoneno = /^\d{10}$/;
+	if(fname=="")
+	{
+		document.getElementById("nameerror").innerHTML="Please enter your name";
+		document.getElementById("fname").value="";
+		document.getElementById("fname").focus();
+		return false;	
+	}
+	else if(email=="")
+	{
+		document.getElementById("nameerror").innerHTML="Please enter your email";
+		document.getElementById("email").value="";
+		document.getElementById("email").focus();
+		return false;	
+	}
+	 else if (!email.match(mailformat))
+	{
+		document.getElementById("nameerror").innerHTML="Please enter your valid email";
+		document.getElementById("email").value="";
+		document.getElementById("email").focus();
+		return false;	
+	}
+	else if(psw=="")
+	{
+		document.getElementById("nameerror").innerHTML="Please enter your password";
+		document.getElementById("psw").value="";
+		document.getElementById("psw").focus();
+		return false;	
+	}
+	else if(cpsw=="")
+	{
+		document.getElementById("nameerror").innerHTML="Please enter your confirm password";
+		document.getElementById("cpsw").value="";
+		document.getElementById("cpsw").focus();
+		return false;	
+	}
+	else if (!(cpsw==psw))
+	{
+		document.getElementById("nameerror").innerHTML="Please enter your correct password";
+		document.getElementById("cpsw").value="";
+		document.getElementById("cpsw").focus();
+		return false;	
+	}
+		return true;
+}
+</script>
+<script>
+function check_value(x)
+{	
+	document.getElementById("nameerror").innerHTML="";
+	document.getElementById("nameerror").innerHTML="";
+	
+	return true;
+}
+
+</script>
+<!-------------------- Page3 Start ------------------->
+
+<div data-role="page" id="dashboard">
+ <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">   
+          <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqusans" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+  </div>
+   </header>
+   <div class="strip_menu">         
+   <div class="categories">                
+            <ul>                 
+               <li><a href="#dashboard" data-transition="slide" class="active">Home</a></li>  
+               <li><a href="#">|</a></li>  
+                <li><a href="#Technology" data-transition="slide">Micro Learning</a></li>
+                <li><a href="#">|</a></li>  
+                <li><a href="#Mysuccess" data-transition="slide">My Success</a></li>
+                <li><a href="#">|</a></li>  
+                <li><a href="#viewqusans" data-transition="slide">Global Forum</a></li>             
+            </ul>               
+        </div>
+</div>
+  <div data-role="main" >
+    <div class="discover"> 
+              <div class="dis_1">Your <font class="dis_color">Ideas!</font></div>
+             <div class="dis_1">Your <font class="dis_color">Success!</font></div>
+             <div class="dis_1">Your <font class="dis_color">Happiness!</font></div>      
+     </div>
+     <div class="name_clr">
+<div class="name_user">
+<div class="name_user1">Welcome User!</div>
+<div class="name_user2"><img src="img/star.png" width="80" height="15"></div>
+</div>
+<div class="name_mony">
+Earnings : $250
+</div>
+</div>          
+<div class="grid">
+  <div class="grid-sizer">
+   <a href="#Technology">
+  <div class="grid-item1">
+    <img src="img/edu-tips.png" width="30" height="31"><br/>
+    Micro Learning
+     </div></a>
+     <a href="#viewqusans">
+  <div class="grid-item2">
+<img src="img/Q&A.png" width="30" height="31"><br/>
+Global Forum
+  </div></a>
+  </div>
+  <div class="grid-sizer">
+  <a href="#Mysuccess">
+  <div class="grid-item3">
+   <img src="img/showcase-ideas.png" width="30" height="31"><br/>
+  My Success
+    </div></a>
+  <div class="grid-item4">
+ <!--<img src="img/showcase-ideas.png" width="136" height="77">-->
+<div class="tile tile-white">
+   <div id="slideshow">
+   	<div align="center">
+     		<img src="img/ad2.png" height="50" width="150"/>
+        </div>
+        <div>
+     		<img src="img/ad1.png" height="50" width="150"/>
+   	</div>
+       <div>
+     		<img src="img/ad3.png" height="50" width="150"/>
+       </div>
+  </div>
+ </div>
+  </div>
+  </div> 
+  </div>
+   </div>
+   <div class="clear_cl"></div>
+</div> 
+
+<!-------------------- Micro Learning tile1------------------->
+
+<div data-role="page" id="Technology" style="background-color:#a0b029;">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+            <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+  <div data-role="main">
+   </div>
+  <div class="strip_menu">         
+   <div class="categories">                
+            <ul>                 
+               <li><a href="#Technology" class="active" data-transition="slide">Technology Tips</a></li>  
+               <li><a href="#">|</a></li>  
+                <li><a href="#Business">Business Tips</a></li>   
+                <li><a href="#">|</a></li>  
+                <li><a href="#Brain">Brain Teasers</a></li>
+            </ul>               
+        </div>
+</div>
+
+     <div class="discover1"> 
+     <img src="img/education/technology.jpg">
+     </div>
+     
+    
+      <div class="name_clr1">
+<div class="name_user_clr1">
+<div class="name_user1_clr1">Misplaced your Android Phone<br/>
+while on Silent mode? Try this,</div>
+</div>
+<div class="name_mony_clr1">
+Tech Tip
+</div>
+</div>   
+    
+      <div class="name_clr1">
+<div class="name_user_clr1">
+<div class="name_user2_clr1">
+<p>1. Open Google Play in your Desktop Browser</p>
+
+<p>2. Goto Android Device Manager</p>
+
+<p>3. Login with the same Gmail account you used to <br/>
+    activate your phone</p>
+
+<p>4. Select 'Ring'</p>
+</div>
+</div>
+</div>   
+<div class="clear_cl"></div>
+ </div>
+ 
+
+<!-------------------- Micro Learning tile2------------------->
+
+<div data-role="page" id="Business" style="background-color:#7bdca7;">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+               <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+  <div data-role="main">
+   </div>
+  <div class="strip_menu">         
+   <div class="categories">                
+            <ul>                 
+               <li><a href="#Technology">Technology Tips</a></li>  
+               <li><a href="#">|</a></li>  
+                <li><a href="#Business" class="active" data-transition="slide">Business Tips</a></li>   
+                <li><a href="#">|</a></li>  
+                <li><a href="#Brain">Brain Teasers</a></li>
+            </ul>               
+        </div>
+</div>
+     <div class="discover1"> 
+
+     <img src="img/education/tips.jpg">
+     </div>
+     
+    
+      <div class="name_clr1">
+<div class="name_user_clr1">
+<div class="name_user1_clr1">IN THIS SECTION: BUSINESS <br/>CULTURE IN INDIA</div>
+</div>
+<div class="name_mony_clr1">
+Business Tips
+</div>
+</div>   
+    
+      <div class="name_clr1">
+<div class="name_user_clr1">
+<div class="name_user2_clr1">
+<p>Tip 1</p>
+<p>India is one of the most diverse countries in the world and therefore all generalisations about Indian culture should be treated with caution. Try to research each client thoroughly before entering into any negotiations. Is it a traditional, family-run business or a more modern hi-tech operation working with western business methodology?</p>
+<p>Tip 2</p>
+<p>India, more than most other countries, places great value on the quality of inter-personal relationships. Do not try to push things along too quickly in the early stages - take the time to develop relationships.</p>
+<p>2. Get a clear idea about the contexts in which learners use English</p>
+<p>Tip 3</p>
+<p>Both society and business are extremely hierarchically arranged and many Indians find it extremely difficult to work in a non-hierarchical structure.</p>
+<p>Tip 4</p>
+<p>Trying to introduce a flatter, more egalitarian approach into a society in which the caste system still flourishes can prove extremely difficult and painful for all concerned.</p>
+<p>Tip 5</p>
+<p>Most decisions are made at the top of an organisation and it can, therefore, be a waste of time and resource to spend too much time negotiating at the middle levels of a company if top level approval has not already been given.</p>
+</div>
+</div>
+</div>  
+<div class="clear_cl"></div> 
+ </div>
+
+<!-------------------- Micro Learning tile3------------------->
+
+<div data-role="page" id="Brain" style="background:#8e7b6d;">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+  <div data-role="main">
+   </div>
+  <div class="strip_menu">         
+   <div class="categories">                
+            <ul>                 
+               <li><a href="#Technology">Technology Tips</a></li>  
+               <li><a href="#">|</a></li>  
+                <li><a href="#Business">Business Tips</a></li>   
+                <li><a href="#">|</a></li>  
+                <li><a href="#Brain" class="active" data-transition="slide">Brain Teasers</a></li>
+            </ul>               
+        </div>
+</div>
+     <div class="discover1"> 
+     <img src="img/education/brain.jpg">
+     </div>
+     
+    
+      <div class="name_clr1">
+<div class="name_user_clr1">
+<div class="name_user1_clr1">BRAIN TEASERS</div>
+</div>
+<div class="name_mony_clr1">
+Brain Teasers
+</div>
+</div>   
+    
+      <div class="name_clr1">
+<div class="name_user_clr1">
+<div class="name_user2_clr1">
+    
+    <p>1. A lift is on the ground floor. There are 4 people in the lift including me. 
+When the lift reaches 1st floor, 1 person gets out 3 people get in.
+The lift goes up to the second floor, 2 people get out 6 people get in. 
+It then goes up to the next floor up, no-one gets out but 12 people get in. Halfway up to the next floor up the lift cable snaps, it crashes to the floor. Everyone dies in the lift. How did I survive?</p>
+
+<p>2. You are in a cabin and it is pitch black. You have one match on you. Which do you light first, the newspaper, the lamp, the candle or the fire?</p>
+
+</div>
+</div>   
+ </div>
+ <div class="clear_cl"></div>
+ </div>
+
+<!-------------------- My success ------------------->
+
+<div data-role="page" id="Mysuccess">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+  
+   <div id="header1" style="background-color:#06F;">
+        <a id="bars-button" class="ui-btn-left menu" href="#Postideas"><img src="img/idea/add.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#">
+  <img src="img/idea/notification.png"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ </div>
+  
+
+  <div class="idea2">
+  <div class="idea_tit1">Networking</div>
+  <div class="idea_edit"><a href="#"><img src="img/idea/edit.png" width="25" height="25"></a></div>
+  <div class="idea_dec">
+ This information will be displayed as a first-level description. That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.
+  </div>
+  </div>
+  
+  <div class="idea2">
+  <div class="idea_tit1">Networking</div>
+  <div class="idea_edit"><a href="#"><img src="img/idea/edit.png" width="25" height="25"></a></div>
+  <div class="idea_dec">
+ This information will be displayed as a first-level description. That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.
+  </div>
+  </div>
+  
+  
+  <div class="idea2">
+  <div class="idea_tit1">Networking</div>
+  <div class="idea_edit"><a href="#"><img src="img/idea/edit.png" width="25" height="25"></a></div>
+  <div class="idea_dec">
+ This information will be displayed as a first-level description. That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.
+  </div>
+  </div>
+  
+  
+  <div class="idea2">
+  <div class="idea_tit1">Networking</div>
+  <div class="idea_edit"><a href="#"><img src="img/idea/edit.png" width="25" height="25"></a></div>
+  <div class="idea_dec">
+ This information will be displayed as a first-level description. That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.
+  </div>
+  </div>
+    
+      
+    
+ <div class="clear_cl"></div>
+ </div>
+
+
+<!-------------------- Global Forum Qustion Answear------------------->
+
+<div data-role="page" id="viewqusans">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+  <div data-role="main">
+   </div>
+  <div class="strip_menu">         
+   <div class="categories">                
+            <ul>      
+               <li><a href="#viewqus" class="active" data-transition="slide">Question Answer</a></li>             
+               <li><a href="#">|</a></li>  
+               <li><a href="#Postqus">Post Question</a></li> 
+            </ul>               
+        </div>
+</div>
+ 
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">2</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#viewqusinner">What are the most challenging research areas under Computer Science?</a><br/>
+ What are the most challenging research areas under Computer Science?
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+ <font class="ans_clr">5</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">2</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">What is an example application of OWL?  What problem is OWL attempting to address?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">6</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+
+ <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+ <font class="ans_clr">1</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">5</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">What is an example application of OWL?  What problem is OWL attempting to address?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">2</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">2</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+
+ <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+ <font class="ans_clr">6</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">2</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">What is an example application of OWL?  What problem is OWL attempting to address?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+
+ <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+ <font class="ans_clr">6</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">4</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">What is an example application of OWL?  What problem is OWL attempting to address?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">3</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+
+ <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+ <font class="ans_clr">4</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">What is an example application of OWL?  What problem is OWL attempting to address?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">2</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">5</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+
+ <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+ <font class="ans_clr">3</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">6</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">What is an example application of OWL?  What problem is OWL attempting to address?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+  <div class="qus_div">
+  <div class="qus_div1">
+  <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Answer
+  </div>
+   <div class="qus_box">
+  <font class="ans_clr">1</font><br/>
+Views
+  </div>
+  </div>
+  <div class="qus_div2">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+  
+ 
+  
+  
+  
+  
+</div>   
+ </div>
+ <div class="clear_cl"></div>
+</div> 
+
+
+
+<!-------------------- Global Forum Qustion Answear------------------->
+
+<div data-role="page" id="viewqusinner">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+  <div data-role="main">
+   </div>
+  <div class="strip_menu">         
+   <div class="categories">                
+            <ul>      
+               <li><a href="#viewqus" class="active" data-transition="slide">Question Answer</a></li>             
+               <li><a href="#">|</a></li>  
+               <li><a href="#Postqus">Post Question</a></li> 
+            </ul>               
+        </div>
+</div>
+ 
+
+  <div class="qus_div_ans">
+  <div class="qus_div_inner">
+  <a href="#">Is there a web service that receives a reference and returns the impact factor?</a><br/>
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:
+  <br/>
+  <div class="qus_box_tag">java</div>
+  <div class="qus_box_tag">java Script</div>
+  <div class="qus_box_tag">mysql</div>
+  </div>
+  </div>
+   <div class="qus_div_ans">
+ <div class="qus_ans">5 Answer</div>
+ <div class="qus_div_inner_ans">
+  use http://www.impactfactorsearch.com which is proposed in this answer. Here's a quick and easy PHP script to get the impact factor of any journal:<br/><br/>
+  </div>
+   <div class="qus_div_inner_ans">
+  yes it is possible you can use border-radius CSS property. For more info have a look at http://zeeshanmkhan.com/post/2/css-rounded-corner-gradient-drop-shadow-and-opacity<br/><br/>
+  </div>
+   <div class="qus_div_inner_ans">
+  border radius is good option, if struggling with old IE versions then try HTML codes<br/><br/>
+  </div>
+   <div class="qus_div_inner_ans">
+ Of course, you have to use to tags to do that. One to create the circle and other for the text.
+
+Here some code may help you<br/>
+.innerTEXT{<br/>
+    position:absolute;<br/>
+    top:80px;<br/>
+    left:60px;<br/>
+}
+
+<br/><br/>
+  </div>
+   <div class="qus_div_inner_ans" style="border-bottom:none;">
+ If it's only one line of text you could use the line-height property, with the same value as the element height:<br/><br/>
+ height:100px;<br/>
+line-height:100px;<br/>
+If the text has multiple lines, or if the content is variable, you could use the padding-top:<br/>
+
+padding-top:30px;<br/>
+height:70px;<br/>
+  </div>
+ 
+ </div>
+ 
+  <div class="index_menu" style="overflow:hidden;">
+   <div class="qus_ans">Your Answer</div>
+ <br/><br/>
+ <form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+ 
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Description" style="background:#fff;"></div>
+    <br/>  
+ <div class="form_pro"><a href="#" data-role="button" class="create" style="background-color:#09F; color:#FFF;">Post</a> </div> 
+  </form> 
+ 
+    </div>
+ 
+</div>   
+ </div>
+ <div class="clear_cl"></div>
+</div> 
+
+
+<!-------------------- Global Forum Qustion------------------->
+
+<div data-role="page" id="Postqus">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+             <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+  <div data-role="main">
+   </div>
+  <div class="strip_menu">         
+   <div class="categories">                
+            <ul>      
+               <li><a href="#viewqus">Question Answer</a></li>             
+               <li><a href="#">|</a></li>  
+               <li><a href="#Postqus" class="active" data-transition="slide">Post Question</a></li> 
+            </ul>              
+        </div>
+</div>
+    <div class="index_menu">
+ <br/><br/>
+ <form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+ 
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Title" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Description" style="background:#f9f9f9; height:100px; border-bottom:1px solid #CCC;"></div>
+  
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Tags" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+    <br/>  
+ <div class="form_pro"><a href="#" data-role="button" class="create" style="background-color:#09F; color:#FFF;">Post</a> </div> 
+  </form> 
+ 
+    </div>
+</div>   
+ </div>
+ <div class="clear_cl"></div>
+</div> 
+<!-------------------- My EVx Profile ------------------->
+
+<div data-role="page" id="Evxprofile">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+
+ <div data-role="content">
+     <div class="name_clr1">
+    <div class="cir_logo"><img src="img/evx/circle.png"></div>
+    <div class="cir_uname">Elango Thangarasu</div>
+   </div>
+     
+    <div class="pro_uname">
+    <div class="pro_email">elangocool89@gmail.com</div>
+    <div class="pro_varify"></div>
+    </div>   
+    
+    <div class="pro_uname">
+    <div class="pro_email">+91 - 9087172110</div>
+    <div class="pro_varify"></div>
+    </div> 
+   
+    <div class="pro_uname">
+    <div class="pro_email">25, Ramnager</div>
+    <div class="pro_varify"></div>
+    </div>
+    
+     <div class="pro_uname">
+    <div class="pro_email">637013</div>
+    <div class="pro_varify"></div>
+    </div>    
+   
+    
+     <div class="pro_uname">
+    <div class="pro_email">coimbatore</div>
+    <div class="pro_varify"></div>
+    </div>    
+   
+    
+     <div class="pro_uname">
+    <div class="pro_email">Tamilnadu</div>
+    <div class="pro_varify"></div>
+    </div>    
+    </div>
+    <div class="acc_bck">
+    Account
+    </div>
+    
+     <div data-role="content">
+      <div class="pro_uname">
+    <div class="pro_email1"><a href="#editprofile">Add Address Details</a></div>
+    <div class="pro_varify"></div>
+    </div>   
+    
+    <div class="pro_uname">
+    <div class="pro_email1"><a href="#editpassword">Change Password</a></div>
+    <div class="pro_varify"></div>
+    </div>   
+    </div>
+    
+ </div>
+</div> 
+<div class="clear_cl"></div>
+</div>
+
+<!-------------------- My EVx Edit Profile ------------------->
+
+<div data-role="page" id="editprofile">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+<div class="index_menu">
+ <div data-role="content">
+ <form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+ 
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Fullname" style="background:#f9f9f9; border-bottom:1px solid #CCC;" value="Elango Thangarasu"></div>
+  
+ 
+ <div class="form_pro"><input type="number" name="phon" id="phon" placeholder="Phon no" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  
+ <div class="form_pro"><input type="text" name="phon" id="phon" placeholder="Address" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  
+ <div class="form_pro"><input type="number" name="phon" id="phon" placeholder="Pincode" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+ 
+ <div class="form_pro"><input type="text" name="phon" id="phon" placeholder="City/Town" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+   
+ <div class="form_pro"><input type="text" name="phon" id="phon" placeholder="State" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+       
+  <button type="button" onclick="return valitation();"><a href="#dashboard" class="create">Save</a></button>
+  </form> 
+ </div>
+    </div>
+
+</div>   
+ </div>
+ <div class="clear_cl"></div>
+</div> 
+
+
+<!-------------------- My EVx Password ------------------->
+
+<div data-role="page" id="editpassword">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+             <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+<div class="index_menu">
+ <div data-role="content">
+ 
+ <form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+ 
+ <div class="form_pro"><input type="password" name="phon" id="phon" placeholder="Old Password" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  
+ <div class="form_pro"><input type="password" name="phon" id="phon" placeholder="New Password" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+ 
+ <div class="form_pro"><input type="password" name="phon" id="phon" placeholder="Confirm Password" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+       
+ <button type="button" onclick="return valitation();"><a href="#dashboard" class="create">Update Password</a></button>
+  </form> 
+  
+ </div>
+    </div>
+
+</div>   
+ </div>
+ <div class="clear_cl"></div>
+</div> 
+
+<!-------------------- Post Ideas1 ------------------->
+
+<div data-role="page" id="Postideas">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+   <div data-role="main">
+   </div>
+<form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+<div class="index_idea">
+<div class="idea_tit">PUBLIC DESCRIPTION</div>
+<p>This information will be displayed publically, so do not use any confidential information here that can inform others about your idea.</p>
+<div data-role="content">
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Idea Area" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Idea Sub-Area" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Public Title" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Public Description" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  </div>
+  <a href="#Postideas2" style="float:right;" data-transition="slide"><img src="img/idea/arrow.png"></a>
+</div>
+</div>
+<!-------------------- Post Ideas2 ------------------->
+
+<div data-role="page" id="Postideas2">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+<form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+<div class="index_idea">
+<div class="idea_tit">FIRST LEVEL DESCRIPTION</div>
+<p>This information will be displayed as a first-level description.  That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.</p>
+<div data-role="content">
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="$U.S. Dollars" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="First Level Description" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  </div></form>
+  <a href="#Postideas3" style="float:right;" data-transition="slide"><img src="img/idea/arrow.png"></a>
+</div>
+<div class="clear_cl"></div>
+</div> 
+ 
+<!-------------------- Post Ideas3 ------------------->
+
+<div data-role="page" id="Postideas3">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+<form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+<div class="index_idea">
+<div class="idea_tit">SECOND LEVEL DESCRIPTION</div>
+<p>This information will be displayed as a second-level description. That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.</p>
+<div data-role="content">
+    <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="$U.S. Dollars" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Second Level Description" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+</div></div></form>
+  <a href="#Postideas4" style="float:right;" data-transition="slide"><img src="img/idea/arrow.png"></a>
+</div>
+<div class="clear_cl"></div>
+</div>  
+<!-------------------- Post Ideas4 ------------------->
+
+<div data-role="page" id="Postideas4">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+              <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+        </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#index.html"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+<form method="POST" name="signup" action="signin.php" enctype="multipart/form-data"> 
+<div class="index_idea">
+<div class="idea_tit">FINAL LEVEL DESCRIPTION</div>
+<p>This information will be displayed as a Detailed-level description. That means that this information will only be displayed to a potential buyer after he or she pays you the minimum value specified.</p>
+<div data-role="content">
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Designs (in sheets)" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="Language" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro"><input type="text" name="fname" id="fname" placeholder="$U.S. Dollars" style="background:#f9f9f9; border-bottom:1px solid #CCC;"></div>
+  <div class="form_pro">
+    <input type="file" name="image" /> <font style="font-size:12px;">It allows zip or rar files only</font></div>
+    <a href="#" data-role="button" class="create" style="background-color:#09F; color:#FFF;">Save</a>
+</form> 
+  </div>
+</div>
+<div class="clear_cl"></div>
+</div>   
+
+<!-------------------- Course ------------------->
+
+<div data-role="page" id="Courselist">
+  <div data-role="panel" id="panel" data-position="left" data-theme="a" data-display="overlay">  
+             <ul data-role="listview" class="v_menu">
+              <li><a id="panelheader" href="#main" data-rel="close">&nbsp;</a></li>
+                <li data-l10n-id="menu-keys" data-icon="lock"><a href="#Evxprofile" data-transition="slide">My EVx</a></li>
+                <li data-l10n-id="menu-about" data-icon="info"><a href="#Postideas" data-transition="slide">My Ideas</a></li>
+                <li data-l10n-id="menu-about" data-icon="search"><a href="#Courselist" data-transition="slide">EVx Courses</a></li>
+                <li data-l10n-id="menu-about" data-icon="calendar"><a href="#viewqus" data-transition="slide">Global Forum</a></li>
+                <li data-l10n-id="menu-about" data-icon="user"><a href="#signin">Sign Out</a></li>
+            </ul>
+  </div>
+   <header data-role="header">
+   <div id="header1">
+        <a id="bars-button" class="ui-btn-left menu" href="#panel"><img src="img/menu.png" width="25" height="25"></a>
+ <a id="bars-button" class="ui-btn-c logo" href="#dashboard">
+  <img src="img/logo.png" width="58" height="35"> 
+  </a>
+   <a id="bars-button" class="ui-btn-right logout" href="#signin"><img src="img/logout.png" width="25" height="25"></a>
+ 
+   </header>
+   <div data-role="main">
+   </div>
+
+<div class="index_idea">
+<div class="idea_tit">The EVx Basics Program</div>
+<p>Teaches users how to think. This program provides users with the tools that are necessary to become more successful, including financially successful.</p>
+<div class="course_div">
+<div class="course_tile1"><a href="#"><img src="img/course/course1.jpg"></a></div>
+<div class="course_tile2"><a href="#"><img src="img/course/course2.jpg"></a></div>
+</div>
+</div> 
+
+<div class="index_idea">
+<div class="idea_tit">The EVx How Things Work Program</div>
+<p>Teaches users about different technologies, industries and fields. These courses provide users with the concepts they need to know in different subject areas.</p>
+<div class="course_div">
+<div class="course_tile1"><a href="#"><img src="img/course/course3.jpg"></a></div>
+<div class="course_tile2"><a href="#"><img src="img/course/course4.jpg"></a></div>
+</div>
+</div> 
+
+<div class="index_idea">
+<div class="idea_tit">COMING SOON</div>
+<div class="course_div">
+<div class="course_tile1"><a href="#"><img src="img/course/course6.jpg"></a></div>
+<div class="course_tile2"><a href="#"><img src="img/course/course7.jpg"></a></div>
+</div>
+</div>
+<br/>
+<div class="index_idea">
+<div class="course_div">
+<div class="course_tile1"><a href="#"><img src="img/course/course8.jpg"></a></div>
+<div class="course_tile2"><a href="#"><img src="img/course/course5.jpg"></a></div>
+</div>
+</div>
+<br/>
+<div class="index_idea">
+<div class="course_div">
+<div class="course_tile2"><a href="#"><img src="img/course/course9.jpg"></a></div>
+</div>
+</div>
+  <br/>
+ </div>
+ <div class="clear_cl"></div>
+</div> 
+
+
+</body>
+</html>
